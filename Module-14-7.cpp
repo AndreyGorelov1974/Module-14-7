@@ -41,31 +41,53 @@ else
 
 #include <iostream>
 
-//размерность матрицы
+//размерность мира
 const int n = 5;
+//высота мира
+const int height = 10;
 
-void display(int arr[][n]) {
+//функция инициализации трёхмерного массива мира
+void initial_world(bool arr[][n][height], int matrix[][n]) {
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
-			std::cout << arr[i][j] << " ";
+			for (int h = 0; h < matrix[i][j]; ++h) {
+				arr[i][j][h] = true;
+			}
+			for (int h = matrix[i][j]; h < height; ++h) {
+				arr[i][j][h] = false;
+			}
+		}
+	}
+}
+
+//функция вывода среза мира на уровне level
+void display_slice(bool arr[][n][height], int level) {
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			if (arr[i][j][level])
+			{
+				std::cout << "1 ";
+			}
+			else {
+				std::cout << "0 ";
+			}
 		}
 		std::cout << std::endl;
 	}
 }
 
 int main() {
-	int A[n][n];
+	bool world[n][n][height];
+	int matrixOfHeights[n][n];
 
-	//заполнение змейкой 
-	int cout = 0;
-	int tmp = 0;
+	std::cout << "Input matrix of heights: "<< std::endl;
+
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
-			tmp = (n - 1) * (i % 2) + j * (((i % 2) * -2) + 1);
-			A[i][tmp] = cout;
-			++cout;
+			std::cin >> matrixOfHeights[i][j];
 		}
 	}
 
-	display(A);
+	initial_world(world, matrixOfHeights);
+
 }
