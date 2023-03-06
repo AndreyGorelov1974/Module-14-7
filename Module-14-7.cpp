@@ -30,19 +30,19 @@ input slice: 3
 Советы и рекомендации
 При печати потребуется проверять содержимое трёхмерного массива. При уже известном значении уровня level проверка выглядит так:
 
-if (world[i][j][level]) 
-{ 
-//печатаем 1 
-} 
-else 
-{ 
-//печатаем 0 
+if (world[i][j][level])
+{
+//печатаем 1
+}
+else
+{
+//печатаем 0
 }*/
 
 #include <iostream>
 
 //размерность мира
-const int n = 5;
+const int n = 4;
 //высота мира
 const int height = 10;
 
@@ -62,6 +62,8 @@ void initial_world(bool arr[][n][height], int matrix[][n]) {
 
 //функция вывода среза мира на уровне level
 void display_slice(bool arr[][n][height], int level) {
+	//уменьшаем уровень на 1 т.к. отсчёт с 0
+	--level;
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
 			if (arr[i][j][level])
@@ -77,17 +79,29 @@ void display_slice(bool arr[][n][height], int level) {
 }
 
 int main() {
+	//массив мира
 	bool world[n][n][height];
+	//матрица высот
 	int matrixOfHeights[n][n];
 
-	std::cout << "Input matrix of heights: "<< std::endl;
+	std::cout << "Input matrix of heights: " << std::endl;
 
+	//пользователь заполняет матрицу высот
 	for (int i = 0; i < n; ++i) {
 		for (int j = 0; j < n; ++j) {
 			std::cin >> matrixOfHeights[i][j];
 		}
 	}
-
+	//инициализируем мир
 	initial_world(world, matrixOfHeights);
 
+	int levelSlice = 0;
+	//основной цикл, выход -1
+	while (levelSlice != -1) {
+		//задаём уровень среза
+		std::cout << "Input slice: ";
+		std::cin >> levelSlice;
+		//выводим срез
+		display_slice(world, levelSlice);
+	}
 }
